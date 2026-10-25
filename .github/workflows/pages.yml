@@ -1,0 +1,69 @@
+name: Testar e publicar
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  testes:
+    name: Testes (regras, servidor e página)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Regras da página (inclui 5.000 preços aleatórios)
+        run: npm test
+      - name: Funções do servidor (coleta, autorização e leitura, sem rede)
+        run: npm run test:functions
+      - name: Instalar navegador de teste
+        run: |
+          npm install --no-save playwright@1.63.0
+          npx playwright install --with-deps chromium
+      - name: Testes de ponta a ponta (celular, 320px e desktop)
+        run: node tests/e2e/run.mjs e2e-prints
+      - name: Guardar prints dos testes
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: prints-dos-testes
+          path: e2e-prints
+          retention-days: 7
+
+  publicar:
+    name: Publicar no GitHub Pages
+    needs: testes
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Montar o site (só os arquivos da página)
+        run: |
+          mkdir -p _site
+          cp -r index.html manifest.webmanifest icon.svg icon-192.png icon-512.png apple-touch-icon.png .nojekyll css js fonts _site/
+          # cada publicação ganha um carimbo próprio: o navegador nunca mistura arquivo novo com antigo
+          V="${GITHUB_SHA::7}"
+          sed -i "s/?v=dev/?v=$V/g" _site/index.html _site/js/app.js
+          sed -i "s/const VERSAO = 'dev';/const VERSAO = '$V';/" _site/js/app.js
+          grep -c "?v=$V" _site/index.html _site/js/app.js
+          grep -q "const VERSAO = '$V';" _site/js/app.js
+          ! grep -rn "?v=dev\|VERSAO = 'dev'" _site/index.html _site/js/*.js
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deployment
+        uses: actions/deploy-pages@v4

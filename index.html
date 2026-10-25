@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src https://vldiylyynkgprpfxyyej.supabase.co; manifest-src 'self'; base-uri 'self'; form-action 'none'; object-src 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#0b2226">
+<meta name="description" content="Radar ML: os mais vendidos do Mercado Livre em carro, ferramentas e elétrica, com selo e conta de lucro.">
+<title>Radar ML</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preload" href="fonts/space-grotesk-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/atkinson-hyperlegible-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/app.css?v=dev">
+<script type="module" src="js/app.js?v=dev"></script>
+</head>
+<body>
+<header class="topo">
+  <div class="marca">
+    <img src="icon.svg" alt="" width="34" height="34">
+    <div>
+      <h1>Radar ML</h1>
+      <p id="sub" class="sub">carregando…</p>
+    </div>
+  </div>
+  <button id="btn-atualizar" class="btn-icone" type="button" aria-label="Atualizar dados">
+    <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M12 4a8 8 0 0 1 7.4 5H17v2h6V5h-2v2.3A10 10 0 1 0 22 12h-2a8 8 0 1 1-8-8z"/></svg>
+  </button>
+</header>
+
+<div id="aviso" class="aviso" role="status" hidden></div>
+
+<main id="conteudo" tabindex="-1">
+  <section id="tela-carregando" class="tela">
+    <div class="radar-anim" aria-hidden="true"></div>
+    <p class="centro">Buscando os dados do radar…</p>
+  </section>
+
+  <section id="tela-chave" class="tela" hidden>
+    <h2>Conectar o Radar</h2>
+    <p>Abra o <b>link de acesso</b> que o Claude te mandou — ele já conecta sozinho. Se preferir, cole o link (ou só a chave) aqui:</p>
+    <form id="form-chave" class="form-chave" novalidate>
+      <label for="campo-chave">Link ou chave de acesso</label>
+      <input id="campo-chave" name="chave" type="text" inputmode="url" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="https://…#k=…">
+      <p id="erro-chave" class="erro" role="alert" hidden></p>
+      <button class="btn" type="submit">Conectar</button>
+    </form>
+  </section>
+
+  <section id="tab-hoje" class="tab" hidden></section>
+  <section id="tab-categorias" class="tab" hidden></section>
+  <section id="tab-buscas" class="tab" hidden></section>
+  <section id="tab-historico" class="tab" hidden></section>
+</main>
+
+<nav class="abas" id="abas" aria-label="Seções" hidden>
+  <button type="button" data-tab="hoje" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><path d="M12 12l6-6"/></svg>Hoje</button>
+  <button type="button" data-tab="categorias"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/></svg>Categorias</button>
+  <button type="button" data-tab="buscas"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg>Buscas</button>
+  <button type="button" data-tab="historico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>Histórico</button>
+</nav>
+</body>
+</html>

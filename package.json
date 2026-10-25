@@ -1,0 +1,13 @@
+{
+  "name": "radar-ml",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Radar ML — mais vendidos do Mercado Livre (carro, ferramentas e elétrica) com selo e conta de lucro.",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "test:functions": "npx --yes deno@2.5.4 test -A --config tests/functions/deno.json tests/functions/",
+    "test:e2e": "node tests/e2e/run.mjs e2e-prints"
+  },
+  "engines": { "node": ">=20" }
+}
