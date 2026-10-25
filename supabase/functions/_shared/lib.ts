@@ -12,7 +12,7 @@ export function normalizar(texto: string): string {
   return (texto ?? "")
     .toLowerCase()
     .normalize("NFD")
-    .replace(/[̀-ͯ]/g, "")
+    .replace(/[\u0300-\u036f]/g, "")
     .replace(/\s+/g, " ")
     .trim();
 }
@@ -24,6 +24,7 @@ const EVITAR: Regra[] = [
   { padrao: /\bcarregador\b.*\b(celular|usb|tipo c|type c|iphone|turbo|wireless|sem fio|inducao|notebook)\b|\b(celular|usb|tipo c|type c|iphone|turbo|wireless|sem fio|inducao)\b.*\bcarregador\b/, motivo: "carregador eletrônico (exige Anatel)" },
   { padrao: /\b(fone|headset|caixa de som|bluetooth|wi-?fi|rastreador|transmissor|smartwatch|radio)\b/, motivo: "item com rádio/Bluetooth (exige Anatel)" },
   { padrao: /\b(macarico|gas butano|refil de gas|isqueiro|inflamavel)\b/, motivo: "inflamável ou gás (envio restrito)" },
+  { padrao: /\b(finca ?-?pinos?|fincapinos?|polvora|cartuchos? (calibre )?\.?22)\b/, motivo: "finca pino usa cartucho de pólvora (envio e anúncio restritos)" },
   { padrao: /\b(airsoft|arma|anti ?-?radar|antirradar|detector de radar|vape|cigarro eletronico|pod descartavel)\b/, motivo: "item proibido ou restrito" },
   { padrao: /\b(remedio|medicamento|suplemento|simparic|bravecto)\b/, motivo: "medicamento ou suplemento" },
   // o produto é o próprio pneu/bateria/colchão ou é feito de vidro (não acessórios que só citam a palavra)

@@ -48,6 +48,9 @@ Deno.test("classificação dos produtos", () => {
   assertEquals(c("Carregador Turbo USB-C 25W", 59), "EVITAR");
   assertEquals(c("Fone de Ouvido Bluetooth Pro 4", 59), "EVITAR");
   assertEquals(c("Kit Maçarico com 4 refis", 57), "EVITAR");
+  assertEquals(c("Pistola Fixação Finca Pino Ação Direta Pregos Epi Maleta", 59.99), "EVITAR");
+  assertEquals(c("Pistola Fincapino Kit Premium", 54.96), "EVITAR");
+  assertEquals(c("Pistola De Pintura Gravidade 600ml 3 Bicos", 64.9), "OK");
   assertEquals(c("Tapete Personalizado VW Gol com Logo", 59), "EVITAR");
   assertEquals(c("Tapete de Borracha Gol G4 5 peças", 59), "OK");
   assertEquals(c("Lâmpada LED H4 6000K", 59.9), "CONFERIR");
